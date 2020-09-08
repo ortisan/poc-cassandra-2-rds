@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Lambda function with cfn-response.
+Resources:
+  primer:
+    Type: AWS::Lambda::Function
+    Properties:
+        FunctionName: "create_tables"
+        Runtime: python3.7
+        Role: arn:aws:iam::779882487479:role/lambda_role
+        Code:
+            S3Bucket: "ortiz-lambdas"
+            S3Key: "create_tables.zip"
+        Handler: lambda_function.handler
+        Timeout: 30
+        Description: Invoke a function during stack creation.
+      

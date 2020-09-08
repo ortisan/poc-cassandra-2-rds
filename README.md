@@ -38,7 +38,21 @@ Steps:
    ```
 1. Create an rds
    ```sh
-   python3 src/create-rds.py
+   python3 src/create_rds.py
    ```
-1. Execute Aws Datapipeline or Aws lambda? 
-   TODO
+1. Create a roles for Aws Lambdas
+
+1. Update RDS endpoint of file **aws/lambdas/create_tables/rds_config.py**
+
+1. Upload the lambdas functions on S3
+   ```sh
+   python3 src/upload_lambdas_bucket.py
+   ```
+1. Create the Lambdas
+   ```sh
+   python3 src/create_functions.py
+   ```
+
+
+
+aws lambda update-function-code --function-name create_tables --zip-file fileb://function.zip
