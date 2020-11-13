@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+    DBInstanceID:
+        Default: 'rdstest'
+        Description: My database instance
+        Type: String
+        MinLength: '1'
+        MaxLength: '63'
+        AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+        ConstraintDescription: >-
+            Must begin with a letter and must not end with a hyphen or contain two consecutive hyphens.
+    DBName:
+        Default: 'persondb'
+        Description: My database
+        Type: String
+        MinLength: '1'
+        MaxLength: '64'
+        AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+        ConstraintDescription: Must begin with a letter and contain only alphanumeric characters.
+    DBInstanceClass:
+        Default: 'db.t3.small'
+        Description: DB instance class
+        Type: String
+        ConstraintDescription: Must select a valid DB instance type.
+    DBAllocatedStorage:
+        Default: '5'
+        Description: The size of the database (GiB)
+        Type: Number
+        MinValue: '5'
+        MaxValue: '1024'
+        ConstraintDescription: must be between 20 and 65536 GiB.
+    DBUsername:
+        Default: 'admin'
+        NoEcho: 'true'
+        Description: Username for MySQL database access
+        Type: String
+        MinLength: '1'
+        MaxLength: '16'
+        AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+        ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
+Resources:
+    Database:
+        Type: 'AWS::RDS::DBInstance'
+        Properties:
+            DBInstanceIdentifier: !Ref DBInstanceID
+            DBName: !Ref DBName
+            DBInstanceClass: !Ref DBInstanceClass
+            AllocatedStorage: !Ref DBAllocatedStorage
+            Engine: MySQL
+            EngineVersion: 8.0.16
+            MasterUsername: !Sub '{{resolve:secretsmanager:${DatabaseRotationSecret}::username}}'
+            MasterUserPassword: !Sub '{{resolve:secretsmanager:${DatabaseRotationSecret}::password}}'
+    DatabaseRotationSecret:
+        Type: AWS::SecretsManager::Secret
+        Properties:
+          Name: DatabaseRotationSecret
+          Description: 'This is my rds instance secret'
+          GenerateSecretString:
+            SecretStringTemplate: !Sub '{"username": "${DBUsername}"}'
+            GenerateStringKey: 'password'
+            PasswordLength: 16
+            ExcludeCharacters: '"@/\'     
+    DatabaseUsername:
+        Type: AWS::SSM::Parameter
+        DependsOn: Database
+        Properties:
+            Name: DatabaseUsername
+            Type: String
+            Value: !Ref DBUsername
+    DatabasePassword:
+        Type: AWS::SSM::Parameter
+        DependsOn: Database
+        Properties:
+            Name: DatabasePassword
+            Type: String
+            Value: !Sub '{{resolve:secretsmanager:${DatabaseRotationSecret}::password}}'
+    DatabaseEndpointUrl:
+        Type: AWS::SSM::Parameter
+        DependsOn: Database
+        Properties:
+            Name: DatabaseEndpointUrl
+            Type: String
+            Value: !Sub '${Database.Endpoint.Address}:${Database.Endpoint.Port}/${DBName}'

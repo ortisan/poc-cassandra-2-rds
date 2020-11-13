@@ -23,5 +23,6 @@ def upload_file(file):
         return (filename, False)
 
 if __name__ == "__main__":
+    
     create_bucket()
     upload_file('aws/lambdas/create_tables/create_tables.zip')

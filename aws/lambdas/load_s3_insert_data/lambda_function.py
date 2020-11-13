@@ -39,7 +39,6 @@ for file in files:
     script = "LOAD DATA INFILE '/tmp/{}' INTO TABLE person FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\n';".format(file)
     with conn.cursor() as cur:
         response = cur.execute(script)
-        print(response)
         conn.commit()
     
 

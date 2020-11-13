@@ -1,13 +1,9 @@
 import uuid
 
-QTD_REGISTERS = int(1e6) # 10 bi
+QTD_REGISTERS = int(1e6) # 1 mi
 
 if __name__ == "__main__":
     with open('data/person-in.csv', 'w') as csvfile:
         for i in range(1, QTD_REGISTERS):             
             id = str(uuid.uuid4())
-            csvfile.write(id + ",VOS,Marianne\n")
-            
-    
-
-    
+            csvfile.write(id + ",VOS,Marianne,\"[{id: "+ id + ", phone_number: 123456}]\"\n")

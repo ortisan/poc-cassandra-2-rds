@@ -4,8 +4,14 @@ CREATE KEYSPACE IF NOT EXISTS mykeyspace
    'datacenter1' : 1 
   } ;
 
+CREATE TYPE mykeyspace.phone (
+  id UUID,
+  phone_number int
+);
+
 CREATE TABLE IF NOT EXISTS mykeyspace.person ( 
    id UUID PRIMARY KEY, 
    lastname text, 
-   firstname text 
+   firstname text,
+   phones list<frozen<phone>>
 ) ;

@@ -10,6 +10,33 @@ Pre-reqs:
 
 Steps:
 
+
+## AWS Environment:
+   1. Zip and upload lambdas
+   ```sh
+      cd aws/lambdas/create_tables
+      virtualenv env
+      source env/bin/activate
+      pip install -r requirements.txt 
+      cd env/lib/python3.8/site-packages
+      zip -r lambda_create_table.zip .
+      cd ../../../../
+      zip -g lambda_create_table.zip lambda_function.py
+   ``` 
+
+## 3. Prepare Cassandra Environment
+
+
+
+
+
+
+
+
+
+
+
+
 1. Create and enable Python Virtual Environment:
    ```sh
    virtualenv env
