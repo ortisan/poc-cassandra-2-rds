@@ -67,9 +67,7 @@ Steps:
    ```sh
    python3 src/create_rds.py
    ```
-1. Create a roles for Aws Lambdas
-
-1. Update RDS endpoint of file **aws/lambdas/create_tables/rds_config.py**
+1. Create a roles for Aws Lambdas with permitions of Secrets Manager, System Manager, RDS and S3.
 
 1. Upload the lambdas functions on S3
    ```sh
@@ -81,5 +79,20 @@ Steps:
    ```
 
 
+### Usable commands and links:
 
-aws lambda update-function-code --function-name create_tables --zip-file fileb://function.zip
+1. Cassandra User Defined Type:
+https://docs.datastax.com/en/dse/6.7/cql/cql/cql_using/useCreateUDT.html
+
+1. Optimization of Cassandra COPY:
+https://www.datastax.com/blog/six-parameters-tune-cqlsh-copy-performance
+
+1. Deployable lambda: 
+https://docs.aws.amazon.com/lambda/latest/dg/python-package.html
+
+1. Glue sample: 
+https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-samples-legislators.html
+
+
+#### TODO:
+1. Job Glue
