@@ -1,8 +1,10 @@
-import boto3
 import yaml
+from utils import create_or_update_stack
 
-if __name__ == "__main__":
-    client = boto3.client('cloudformation')
+STACK_NAME = 'migration-rds-stack'
+
+if __name__ == "__main__":    
     with open('aws/cloudformations/rds_database.yml') as f:        
-        contents = f.read()
-        response = client.create_stack(StackName='rds-stack', TemplateBody=contents, TimeoutInMinutes=10, OnFailure='DELETE')
+        template_body = f.read()
+        create_or_update_stack(STACK_NAME, template_body)
+        

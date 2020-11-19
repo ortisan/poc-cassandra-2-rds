@@ -8,41 +8,18 @@ Pre-reqs:
 2. AWS cli. Data migration needs upload files to S3
 
 
-Steps:
+## Steps:
 
-
-## AWS Environment:
-   1. Zip and upload lambdas
-   ```sh
-      cd aws/lambdas/create_tables
+### Environment
+   1. Create and enable Python Virtual Environment:
+      ```sh
       virtualenv env
       source env/bin/activate
-      pip install -r requirements.txt 
-      cd env/lib/python3.8/site-packages
-      zip -r lambda_create_table.zip .
-      cd ../../../../
-      zip -g lambda_create_table.zip lambda_function.py
-   ``` 
+      pip install -r requirements.txt
+      ``` 
 
-## 3. Prepare Cassandra Environment
+### Cassandra Environment
 
-
-
-
-
-
-
-
-
-
-
-
-1. Create and enable Python Virtual Environment:
-   ```sh
-   virtualenv env
-   source env/bin/activate
-   pip install -r requirements.txt
-   ``` 
 1. Starting Cassandra environment:
    ```sh
    docker-compose up -d
@@ -59,24 +36,50 @@ Steps:
    ```sh
    ./script-out.sh
    ```
-1. Upload backup file
-   ```sh
-   python3 src/upload2bucket.py
-   ```
-1. Create an rds
-   ```sh
-   python3 src/create_rds.py
-   ```
-1. Create a roles for Aws Lambdas with permitions of Secrets Manager, System Manager, RDS and S3.
 
-1. Upload the lambdas functions on S3
-   ```sh
-   python3 src/upload_lambdas_bucket.py
-   ```
-1. Create the Lambdas
-   ```sh
-   python3 src/create_functions.py
-   ```
+### AWS Environment:
+
+   1. Package lambda
+      ```sh
+      cd aws/lambdas/create_tables
+      virtualenv env
+      source env/bin/activate
+      pip install -r requirements.txt 
+      cd env/lib/python3.8/site-packages
+      zip -r lambda_create_table.zip .
+      cd ../../../../
+      zip -g lambda_create_table.zip lambda_function.py
+      ``` 
+   1. Create Buckets Stack
+      ```sh
+      python3 src/create_buckets.py
+      ```
+   1. Upload lambdas
+      ```sh
+      python3 src/upload_lambdas_bucket.py
+      ```   
+   1. Create RDS Stack
+      ```sh
+      python3 src/create_rds.py
+      ```  
+   1. Upload Cassandra Data to S3
+      ```sh
+      python3 src/upload2bucket.py
+      ```
+   1. Create an rds
+      ```sh
+      python3 src/create_rds.py
+      ```
+   1. Create a roles for Aws Lambdas with permitions of Secrets Manager, System Manager, RDS and S3.
+
+   1. Upload the lambdas functions on S3
+      ```sh
+      python3 src/upload_lambdas_bucket.py
+      ```
+   1. Create the Lambdas
+      ```sh
+      python3 src/create_functions.py
+      ```
 
 
 ### Usable commands and links:
@@ -96,3 +99,24 @@ https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-samples-l
 
 #### TODO:
 1. Job Glue
+
+
+
+
+aws secretsmanager get-secret-value --secret-id DatabaseRotationSecret
+aws ssm get-parameter --name "DatabaseEndpointUrl"
+
+admin
+
+docker run -it mysql mysql -h rdstest.cn9vnkebenrp.us-east-1.rds.amazonaws.com -P 3306 -u admin -pX1xS45zZjrsl1Onx
+
+X1xS45zZjrsl1Onx
+
+rdstest.cn9vnkebenrp.us-east-1.rds.amazonaws.com
+
+jdbc:mysql://rdstest.cn9vnkebenrp.us-east-1.rds.amazonaws.com:3306/persondb
+Criar Crawler
+
+
+rdstest.cn9vnkebenrp.us-east-1.rds.amazonaws.com:3306/persondb
+rdstest.cn9vnkebenrp.us-east-1.rds.amazonaws.com

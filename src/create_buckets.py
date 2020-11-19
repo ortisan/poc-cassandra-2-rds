@@ -1,10 +1,12 @@
-import boto3
 import yaml
+from utils import create_or_update_stack
 
-if __name__ == "__main__":
-    client = boto3.client('cloudformation')    
+STACK_NAME = 'migration-buckets-stack'
+
+if __name__ == "__main__":    
+    
+    botocore.errorfactory.AlreadyExistsException
+    
     with open('aws/cloudformations/buckets.yml') as f:        
-        contents = f.read()
-        response = client.create_stack(StackName='migration-buckets', TemplateBody=contents, TimeoutInMinutes=10, OnFailure='DELETE')
-        print(response)
-        print(dir(response))
+        template_body = f.read()
+        create_or_update_stack(STACK_NAME, template_body)

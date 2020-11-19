@@ -59,7 +59,7 @@ Resources:
             SecretStringTemplate: !Sub '{"username": "${DBUsername}"}'
             GenerateStringKey: 'password'
             PasswordLength: 16
-            ExcludeCharacters: '"@/\'     
+            ExcludePunctuation: true
     DatabaseUsername:
         Type: AWS::SSM::Parameter
         DependsOn: Database
