@@ -1,1 +1,0 @@
-COPY mykeyspace.person (id, lastname, firstname, phones) TO 'data/person-out.csv' WITH HEADER = FALSE ;

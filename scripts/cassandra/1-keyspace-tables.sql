@@ -1,11 +1,9 @@
 DROP KEYSPACE IF EXISTS mykeyspace;
 
-
-CREATE KEYSPACE IF NOT EXISTS mykeyspace
-  WITH REPLICATION = { 
-   'class' : 'NetworkTopologyStrategy', 
-   'datacenter1' : 1 
-  } ;
+CREATE KEYSPACE IF NOT EXISTS mykeyspace WITH REPLICATION = { 
+  'class' : 'NetworkTopologyStrategy', 
+  'datacenter1' : 1 
+};
 
 CREATE TYPE mykeyspace.phone (
   id UUID,
@@ -19,4 +17,4 @@ CREATE TABLE IF NOT EXISTS mykeyspace.person (
    lastname text, 
    firstname text,
    phones list<frozen<phone>>
-) ;
+);
