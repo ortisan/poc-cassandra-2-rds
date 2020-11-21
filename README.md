@@ -38,9 +38,25 @@ Pre-reqs:
 
 ### Jobs
 
-The jobs are in jupyter notebook.
+https://github.com/tentativafc/cassandra-2-rds/blob/master/data/jupyter/work/PersonETLJob.ipynb
 
-http://localhost:8888
+Edit into jupyter notebook - http://localhost:8888
+
+
+Show token:
+
+```sh
+docker logs jupyter 
+```
+
+### Results
+
+Use adminer to view results:
+
+http://localhost:8080/?server=mysql&username=mama&db=mydatabase&sql=select%20*%20from%20person%0A%0A
+
+
+http://localhost:8080/?server=mysql&username=mama&db=mydatabase&sql=select%20*%20from%20phone%3B
 
 
 ### Usable commands and links:
