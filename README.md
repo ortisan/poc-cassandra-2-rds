@@ -1,4 +1,4 @@
-# Cassandra 2 Rds
+# POC Cassandra 2 Rds
 
 This is a POC for migrate data from cassandra to RDS.
 
